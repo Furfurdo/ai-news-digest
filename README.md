@@ -1,26 +1,42 @@
 # ai-news-digest
 
-每天从 RSS 抓取 AI 新闻，自动输出日报。
+Generate a daily AI news digest from RSS feeds.
 
-## 新功能
+## Features
 
-- 支持输出格式：`md` / `txt` / `json`
-- 支持按板块筛选：`models, products, research, policy, business, tools, other`
+- Fetches AI news from RSS sources
+- Deduplicates and ranks stories
+- Filters by sections:
+  - `models`, `products`, `research`, `policy`, `business`, `tools`, `other`
+- Summarizes with an OpenAI-compatible API
+- Outputs in `md`, `txt`, or `json`
 
-## 安装
+## Requirements
+
+- Python 3.10+
+- A provider API key (OpenAI-compatible endpoint)
+
+## Install
 
 ```bash
-cd C:\Users\xuyid\ai-news-digest
 pip install -r requirements.txt
 ```
 
-## 配置
+## Configuration
+
+1. Copy env template:
 
 ```bash
+cp .env.example .env
+```
+
+On Windows PowerShell:
+
+```powershell
 copy .env.example .env
 ```
 
-编辑 `.env`：
+2. Edit `.env`:
 
 ```env
 LLM_API_KEY=your_key_here
@@ -28,46 +44,52 @@ LLM_BASE_URL=https://your-provider.example/v1
 LLM_MODEL=gpt-4o-mini
 ```
 
-## 运行
+## RSS Sources
 
-默认（Markdown）：
+Edit `rss_sources.txt`, one feed URL per line.
+
+## Usage
+
+Default (Markdown):
 
 ```bash
 python src/main.py
 ```
 
-输出 txt：
+Output format:
 
 ```bash
 python src/main.py --format txt
-```
-
-输出 json：
-
-```bash
 python src/main.py --format json
 ```
 
-只看某些板块：
+Filter sections:
 
 ```bash
 python src/main.py --sections models,research
 ```
 
-组合示例（只看 models + research，并输出 txt）：
+Combine options:
 
 ```bash
-python src/main.py --sections models,research --format txt
+python src/main.py --sections models,research --format txt --days 1 --max-items 10
 ```
 
-输出文件路径：
+## Output Files
 
 - `output/daily_ai_news_YYYYMMDD.md`
 - `output/daily_ai_news_YYYYMMDD.txt`
 - `output/daily_ai_news_YYYYMMDD.json`
 
-## 一键推送到 GitHub
+## Publish to GitHub
+
+Use the helper script:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File scripts/publish_to_github.ps1 -RepoUrl "https://github.com/Furfurdo/ProjectP.git" -Message "feat: update daily digest"
+powershell -ExecutionPolicy Bypass -File scripts/publish_to_github.ps1 -RepoUrl "https://github.com/<your-user>/<your-repo>.git" -Message "chore: update digest"
 ```
+
+## Security
+
+- Do not commit `.env`
+- Rotate your API key if leaked
