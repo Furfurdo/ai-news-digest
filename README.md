@@ -88,8 +88,3 @@ Use the helper script:
 ```powershell
 powershell -ExecutionPolicy Bypass -File scripts/publish_to_github.ps1 -RepoUrl "https://github.com/<your-user>/<your-repo>.git" -Message "chore: update digest"
 ```
-
-## Security
-
-- Do not commit `.env`
-- Rotate your API key if leaked
